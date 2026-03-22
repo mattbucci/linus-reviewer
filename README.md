@@ -17,16 +17,17 @@ Each finding gets a taste rating: **GARBAGE**, **BAD TASTE**, **MEH**, or **GOOD
 ## Install
 
 ```
-/install-plugin mattbucci/linus-reviewer
+/plugin marketplace add mattbucci/linus-reviewer
+/plugin install linus-reviewer@mattbucci/linus-reviewer
 ```
 
 ## Usage
 
 ```
-/linus-reviewer:review              # review current branch changes
-/linus-reviewer:review 405          # review specific PR/MR
-/linus-reviewer:review --fix        # review + auto-fix surviving issues
-/linus-reviewer:review --fix 405    # auto-fix specific PR/MR
+/linus-reviewer:linus-review              # review current branch changes
+/linus-reviewer:linus-review 405          # review specific PR/MR
+/linus-reviewer:linus-review --fix        # review + auto-fix surviving issues
+/linus-reviewer:linus-review --fix 405    # auto-fix specific PR/MR
 ```
 
 ## Review Pipeline
