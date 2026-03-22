@@ -23,10 +23,10 @@ Each finding gets a taste rating: **GARBAGE**, **BAD TASTE**, **MEH**, or **GOOD
 ## Usage
 
 ```
-/linus-reviewer:run              # review current branch changes
-/linus-reviewer:run 405          # review specific PR/MR
-/linus-reviewer:run --fix        # review + auto-fix surviving issues
-/linus-reviewer:run --fix 405    # auto-fix specific PR/MR
+/linus-reviewer:review              # review current branch changes
+/linus-reviewer:review 405          # review specific PR/MR
+/linus-reviewer:review --fix        # review + auto-fix surviving issues
+/linus-reviewer:review --fix 405    # auto-fix specific PR/MR
 ```
 
 ## Review Pipeline

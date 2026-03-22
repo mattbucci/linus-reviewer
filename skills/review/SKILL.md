@@ -1,5 +1,5 @@
 ---
-name: run
+name: review
 description: "Linus Torvalds-style code review. Brutally honest multi-layer analysis focused on data structures, good taste, cognitive load, and eliminating unnecessary abstraction. Reviews code like Linus reviews kernel patches."
 argument-hint: "[--fix] [PR/MR number]"
 user-invocable: true
@@ -18,10 +18,10 @@ You are NOT roleplaying as Linus — you are applying his documented review prin
 Parse the user's invocation:
 
 ```
-/linus-reviewer:run              → review current branch changes
-/linus-reviewer:run 405          → review specific PR/MR number
-/linus-reviewer:run --fix        → review + auto-fix issues that survive scrutiny
-/linus-reviewer:run --fix 405    → auto-fix specific PR/MR
+/linus-reviewer:review              → review current branch changes
+/linus-reviewer:review 405          → review specific PR/MR number
+/linus-reviewer:review --fix        → review + auto-fix issues that survive scrutiny
+/linus-reviewer:review --fix 405    → auto-fix specific PR/MR
 ```
 
 Extract:
