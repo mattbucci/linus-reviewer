@@ -1,0 +1,17 @@
+# Review artifacts (working files)
+.claude/reviews/**/optimizer-*.md
+.claude/reviews/**/skeptic-*.md
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Research notes (not part of plugin)
+*-research.md

@@ -1,0 +1,77 @@
+name: Validate Plugin
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate plugin.json
+        run: |
+          echo "Validating plugin.json..."
+          python3 -c "
+          import json, sys
+          with open('.claude-plugin/plugin.json') as f:
+              data = json.load(f)
+          required = ['name', 'description', 'version', 'skills']
+          missing = [k for k in required if k not in data]
+          if missing:
+              print(f'Missing required fields: {missing}')
+              sys.exit(1)
+          print(f'Valid: {data[\"name\"]} v{data[\"version\"]}')
+          "
+
+      - name: Validate marketplace.json
+        run: |
+          echo "Validating marketplace.json..."
+          python3 -c "
+          import json, sys
+          with open('.claude-plugin/marketplace.json') as f:
+              data = json.load(f)
+          if 'plugins' not in data or len(data['plugins']) == 0:
+              print('No plugins defined')
+              sys.exit(1)
+          for p in data['plugins']:
+              required = ['name', 'description', 'version', 'source']
+              missing = [k for k in required if k not in p]
+              if missing:
+                  print(f'Plugin {p.get(\"name\", \"unknown\")} missing: {missing}')
+                  sys.exit(1)
+          print(f'Valid: {len(data[\"plugins\"])} plugin(s)')
+          "
+
+      - name: Validate SKILL.md exists and has frontmatter
+        run: |
+          echo "Validating skills..."
+          for skill_dir in skills/*/; do
+            skill_file="${skill_dir}SKILL.md"
+            if [ ! -f "$skill_file" ]; then
+              echo "Missing SKILL.md in $skill_dir"
+              exit 1
+            fi
+            if ! head -1 "$skill_file" | grep -q "^---"; then
+              echo "Missing frontmatter in $skill_file"
+              exit 1
+            fi
+            echo "Valid: $skill_file"
+          done
+
+      - name: Check version consistency
+        run: |
+          python3 -c "
+          import json
+          with open('.claude-plugin/plugin.json') as f:
+              pv = json.load(f)['version']
+          with open('.claude-plugin/marketplace.json') as f:
+              mv = json.load(f)['plugins'][0]['version']
+          if pv != mv:
+              print(f'Version mismatch: plugin.json={pv}, marketplace.json={mv}')
+              exit(1)
+          print(f'Versions match: {pv}')
+          "
