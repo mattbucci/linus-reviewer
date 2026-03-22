@@ -1,6 +1,6 @@
 # linus-reviewer
 
-A [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Cursor](https://cursor.com), and [Codex CLI](https://github.com/openai/codex) plugin that reviews your code the way Linus Torvalds reviews kernel patches — brutally honest, technically precise, and obsessed with good taste.
+A [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Cursor](https://cursor.com), [Codex CLI](https://github.com/openai/codex), and [OpenCode](https://opencode.ai) plugin that reviews your code the way Linus Torvalds reviews kernel patches — brutally honest, technically precise, and obsessed with good taste.
 
 ## What it does
 
@@ -40,6 +40,15 @@ cp -r /tmp/linus-reviewer/skills/linus-review ~/.codex/skills/linus-review
 ```
 
 Then start a new codex session and invoke with `$linus-review`.
+
+### OpenCode
+
+```bash
+git clone https://github.com/mattbucci/linus-reviewer /tmp/linus-reviewer
+cp -r /tmp/linus-reviewer/skills/linus-review ~/.config/opencode/skills/linus-review
+```
+
+Then start a new opencode session and `/linus-review` will be available.
 
 ## Usage
 
