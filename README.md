@@ -23,12 +23,14 @@ Each finding gets a taste rating: **GARBAGE**, **BAD TASTE**, **MEH**, or **GOOD
 /plugin install linus-reviewer@mattbucci/linus-reviewer
 ```
 
-### Cursor
+### Cursor / cursor-agent
 
+```bash
+git clone https://github.com/mattbucci/linus-reviewer /tmp/linus-reviewer
+ln -s /tmp/linus-reviewer/skills/linus-review ~/.cursor/skills-cursor/linus-review
 ```
-/plugin marketplace add mattbucci/linus-reviewer
-/plugin install linus-reviewer@mattbucci/linus-reviewer
-```
+
+Then start a new cursor-agent session and `/linus-review` will be available.
 
 ## Usage
 
