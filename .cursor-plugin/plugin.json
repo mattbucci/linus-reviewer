@@ -1,0 +1,18 @@
+{
+  "name": "linus-reviewer",
+  "description": "Linus Torvalds-style code review. Brutally honest, technically precise feedback focused on data structures, eliminating special cases, cognitive load, and 'good taste'. Reviews code the way Linus reviews kernel patches.",
+  "version": "1.1.4",
+  "author": {
+    "name": "mattbucci"
+  },
+  "repository": "https://github.com/mattbucci/linus-reviewer",
+  "license": "MIT",
+  "keywords": [
+    "code-review",
+    "linus-torvalds",
+    "good-taste",
+    "simplicity",
+    "quality"
+  ],
+  "skills": "./skills/"
+}

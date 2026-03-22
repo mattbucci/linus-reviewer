@@ -49,7 +49,7 @@ jobs:
 
           python3 -c "
           import json
-          for f in ['.claude-plugin/plugin.json', '.claude-plugin/marketplace.json']:
+          for f in ['.claude-plugin/plugin.json', '.claude-plugin/marketplace.json', '.cursor-plugin/plugin.json', '.cursor-plugin/marketplace.json']:
               with open(f) as fh:
                   data = json.load(fh)
               if 'version' in data:
@@ -64,7 +64,7 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .claude-plugin/plugin.json .claude-plugin/marketplace.json
+          git add .claude-plugin/plugin.json .claude-plugin/marketplace.json .cursor-plugin/plugin.json .cursor-plugin/marketplace.json
           git commit -m "chore: bump version to $NEW"
           git tag "v$NEW"
           git push origin main --tags

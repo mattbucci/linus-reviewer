@@ -1,6 +1,6 @@
 # linus-reviewer
 
-A [Claude Code plugin](https://docs.anthropic.com/en/docs/claude-code) that reviews your code the way Linus Torvalds reviews kernel patches — brutally honest, technically precise, and obsessed with good taste.
+A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and [Cursor](https://cursor.com) plugin that reviews your code the way Linus Torvalds reviews kernel patches — brutally honest, technically precise, and obsessed with good taste.
 
 ## What it does
 
@@ -15,6 +15,15 @@ A multi-layer Linus-style analysis that judges your code on:
 Each finding gets a taste rating: **GARBAGE**, **BAD TASTE**, **MEH**, or **GOOD TASTE**.
 
 ## Install
+
+### Claude Code
+
+```
+/plugin marketplace add mattbucci/linus-reviewer
+/plugin install linus-reviewer@mattbucci/linus-reviewer
+```
+
+### Cursor
 
 ```
 /plugin marketplace add mattbucci/linus-reviewer

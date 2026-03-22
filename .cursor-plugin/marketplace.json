@@ -1,0 +1,29 @@
+{
+  "$schema": "https://cursor.com/plugin/marketplace.schema.json",
+  "name": "linus-reviewer",
+  "description": "Linus Torvalds-style code review with good taste analysis",
+  "owner": {
+    "name": "mattbucci"
+  },
+  "plugins": [
+    {
+      "name": "linus-reviewer",
+      "description": "Brutally honest code review channeling Linus Torvalds. Analyzes data structures, eliminates special cases, reduces cognitive load, and judges code taste. Mechanical checks first, then multi-layer Linus-style analysis.",
+      "version": "1.1.4",
+      "author": {
+        "name": "mattbucci"
+      },
+      "source": "./",
+      "category": "development",
+      "repository": "https://github.com/mattbucci/linus-reviewer",
+      "license": "MIT",
+      "keywords": [
+        "code-review",
+        "linus-torvalds",
+        "good-taste",
+        "simplicity",
+        "quality"
+      ]
+    }
+  ]
+}
