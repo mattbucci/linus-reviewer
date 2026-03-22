@@ -1,7 +1,7 @@
 {
   "name": "linus-reviewer",
   "description": "Linus Torvalds-style code review. Brutally honest, technically precise feedback focused on data structures, eliminating special cases, cognitive load, and 'good taste'. Reviews code the way Linus reviews kernel patches.",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "author": {
     "name": "mattbucci"
   },
