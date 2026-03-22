@@ -2,6 +2,35 @@
 
 A [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Cursor](https://cursor.com), [Codex CLI](https://github.com/openai/codex), and [OpenCode](https://opencode.ai) plugin that reviews your code the way Linus Torvalds reviews kernel patches — brutally honest, technically precise, and obsessed with good taste.
 
+## Table of Contents
+
+- [Usage](#usage)
+- [What it does](#what-it-does)
+- [Install](#install)
+  - [Claude Code](#claude-code)
+  - [Cursor / cursor-agent](#cursor--cursor-agent)
+  - [Codex CLI](#codex-cli)
+  - [OpenCode](#opencode)
+- [Review Pipeline](#review-pipeline)
+- [Design Principles](#design-principles)
+- [Linus Torvalds References](#linus-torvalds-references)
+  - [What Good Code Looks Like](#what-good-code-looks-like)
+  - [What Bad Code Looks Like](#what-bad-code-looks-like)
+  - [Rules and Philosophy](#rules-and-philosophy)
+- [Linus's Language Style](#linuss-language-style)
+- [Recommended: Hooks for Linting & Tests](#recommended-hooks-for-linting--tests)
+- [Configuration](#configuration)
+- [License](#license)
+
+## Usage
+
+```
+/linus-review                     # review current branch changes
+/linus-review 405                 # review specific PR/MR
+/linus-review --fix               # review + auto-fix surviving issues
+/linus-review --fix 405           # auto-fix specific PR/MR
+```
+
 ## What it does
 
 A multi-layer Linus-style analysis that judges your code on:
@@ -49,15 +78,6 @@ cp -r /tmp/linus-reviewer/skills/linus-review ~/.config/opencode/skills/linus-re
 ```
 
 Then start a new opencode session and `/linus-review` will be available.
-
-## Usage
-
-```
-/linus-reviewer:linus-review              # review current branch changes
-/linus-reviewer:linus-review 405          # review specific PR/MR
-/linus-reviewer:linus-review --fix        # review + auto-fix surviving issues
-/linus-reviewer:linus-review --fix 405    # auto-fix specific PR/MR
-```
 
 ## Review Pipeline
 
