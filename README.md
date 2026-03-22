@@ -2,37 +2,6 @@
 
 A [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Cursor](https://cursor.com), [Codex CLI](https://github.com/openai/codex), and [OpenCode](https://opencode.ai) plugin that reviews your code the way Linus Torvalds reviews kernel patches — brutally honest, technically precise, and obsessed with good taste.
 
-## Table of Contents
-
-- [Usage](#usage)
-- [What it does](#what-it-does)
-- [Install](#install)
-  - [Claude Code](#claude-code)
-  - [Cursor / cursor-agent](#cursor--cursor-agent)
-  - [Codex CLI](#codex-cli)
-  - [OpenCode](#opencode)
-- [Review Pipeline](#review-pipeline)
-- [Design Principles](#design-principles)
-- [Linus Torvalds References](#linus-torvalds-references)
-  - [What Good Code Looks Like](#what-good-code-looks-like)
-  - [What Bad Code Looks Like](#what-bad-code-looks-like)
-  - [Rules and Philosophy](#rules-and-philosophy)
-- [Linus's Language Style](#linuss-language-style)
-- [Recommended: Hooks for Linting & Tests](#recommended-hooks-for-linting--tests)
-- [Configuration](#configuration)
-- [License](#license)
-
-## Usage
-
-```
-/linus-review                     # review current branch changes
-/linus-review 405                 # review specific PR/MR
-/linus-review --fix               # review + auto-fix surviving issues
-/linus-review --fix 405           # auto-fix specific PR/MR
-```
-
-## What it does
-
 A multi-layer Linus-style analysis that judges your code on:
 
 - **Data structures** — Are they right? Does the code revolve around good data design, or is it patching around bad structures with conditionals?
@@ -42,6 +11,17 @@ A multi-layer Linus-style analysis that judges your code on:
 - **Practicality** — Does this solve a real problem? Does the complexity match the severity?
 
 Each finding gets a taste rating: **GARBAGE**, **BAD TASTE**, **MEH**, or **GOOD TASTE**.
+
+[Usage](#usage) | [Install](#install) | [How It Works](#how-it-works) | [Design Principles](#design-principles) | [References](#references) | [Hooks](#hooks) | [Configuration](#configuration)
+
+## Usage
+
+```
+/linus-review                     # review current branch changes
+/linus-review 405                 # review specific PR/MR
+/linus-review --fix               # review + auto-fix surviving issues
+/linus-review --fix 405           # auto-fix specific PR/MR
+```
 
 ## Install
 
@@ -79,7 +59,75 @@ cp -r /tmp/linus-reviewer/skills/linus-review ~/.config/opencode/skills/linus-re
 
 Then start a new opencode session and `/linus-review` will be available.
 
-## Review Pipeline
+## Hooks
+
+This plugin focuses on **design review** — it does not run linters, type checkers, or tests. Those mechanical checks belong in [Claude Code hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) that run automatically, so problems are caught before the review even starts.
+
+> *"It doesn't even compile... this clearly never even got a whiff of build-testing. Stop sending me garbage."*
+
+Configure hooks in your project's `.claude/settings.json`:
+
+**Lint on every file edit:**
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx eslint --fix $CLAUDE_FILE_PATH 2>/dev/null || ruff check --fix $CLAUDE_FILE_PATH 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**Run lint and tests before any agent stops:**
+```json
+{
+  "hooks": {
+    "AgentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/check.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Where `.claude/hooks/check.sh` runs your lint and test suite. Return exit code `2` with a reason on stderr to **block** the agent from stopping:
+
+```bash
+#!/bin/bash
+set -e
+
+# Lint
+if ! npx eslint . 2>&1; then
+  echo "Lint is failing. Fix lint errors before you stop." >&2
+  exit 2
+fi
+
+# Tests
+if ! npm test 2>&1; then
+  echo "Tests are failing. Fix them before you stop." >&2
+  exit 2
+fi
+
+exit 0
+```
+
+The plugin assumes your code already compiles and passes lint. If it doesn't, that's on you — Linus wouldn't even look at it.
+
+## How It Works
 
 ```
 Phase 1: Gather Diff
@@ -89,15 +137,15 @@ Phase 1: Gather Diff
 Phase 2: Five-Layer Linus Analysis
     │
     ├─ Layer 1: Data Structures ──┐
-    ├─ Layer 2: Special Cases ────┼── 4 parallel Sonnet agents
+    ├─ Layer 2: Special Cases ────┼── 4 parallel agents
     ├─ Layer 3: Cognitive Load ───┤   (per-file sub-agents for 5+ files)
     ├─ Layer 4: Abstraction Audit ┘
     │
-    └─ Layer 5: Practicality & Breakage (Opus — deduplicates & synthesizes)
+    └─ Layer 5: Practicality & Breakage (deduplicates & synthesizes)
     │
 Phase 3: Taste Rating & Findings
     │
-Phase 4: Auto-Fix (Opus, if --fix, max 2 iterations)
+Phase 4: Auto-Fix (if --fix, max 2 iterations)
     │
 Phase 5: Report (console + PR comments + artifacts)
 ```
@@ -121,7 +169,7 @@ This plugin applies a specific set of code review principles drawn from Linus To
 | 11 | **Single Source of Truth** — Don't store derived state, compute it | Engineer's Codex "4 Design Principles" |
 | 12 | **Minimize Mutable State** — Fewer things changing = fewer things breaking | Engineer's Codex "4 Design Principles" |
 
-## Linus Torvalds References
+## References
 
 Direct quotes and source material used to build this plugin's review principles. Includes both critiques and praise — Linus reviews aren't all rants.
 
@@ -174,7 +222,7 @@ Direct quotes and source material used to build this plugin's review principles.
 | [Engineer's Codex — "Garbage Code"](https://read.engineerscodex.com/p/how-to-not-write-garbage-code-by) | Cognitive load analysis of Linus's RISC-V rejection | *Micro-context switches impose cognitive costs. Helpers that force readers through multiple files can increase load.* | Cognitive locality matters; abstractions have a cost |
 | [Engineer's Codex — "4 Design Principles"](https://read.engineerscodex.com/p/4-software-design-principles-i-learned) | On derived state, mocks, and PRY | *"If there's two sources of truth, one is probably wrong."* | Single source of truth; minimize mutable state |
 
-## Linus's Language Style
+### Language Style
 
 Part of what makes Linus's reviews effective is his characteristic directness. This plugin channels the **precision** without the profanity:
 
@@ -186,74 +234,6 @@ Part of what makes Linus's reviews effective is his characteristic directness. T
 | Rhetorical framing | *"sending a big pull request... in the hope that I'm too busy to care is not a winning strategy"* | Calling out bad strategy |
 | Absolute statements | *"Theory loses. Every single time."* | No wiggle room on core principles |
 | The sign-off | `Linus` | Simple, authoritative, final |
-
-## Recommended: Hooks for Linting & Tests
-
-This plugin focuses on **design review** — it does not run linters, type checkers, or tests. Those mechanical checks belong in [Claude Code hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) that run automatically, so problems are caught before the review even starts.
-
-> *"It doesn't even compile... this clearly never even got a whiff of build-testing. Stop sending me garbage."*
-
-Configure hooks in your project's `.claude/settings.json`:
-
-**Lint on every file edit:**
-```json
-{
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "npx eslint --fix $CLAUDE_FILE_PATH 2>/dev/null || ruff check --fix $CLAUDE_FILE_PATH 2>/dev/null || true"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-**Run tests when Claude finishes or a subagent completes:**
-```json
-{
-  "hooks": {
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": ".claude/hooks/run-tests.sh"
-          }
-        ]
-      }
-    ],
-    "SubagentStop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": ".claude/hooks/run-tests.sh"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-Where `.claude/hooks/run-tests.sh` returns exit code `2` with a reason on stderr to **block** Claude from stopping if tests fail:
-
-```bash
-#!/bin/bash
-if ! npm test 2>&1; then
-  echo "Tests are failing. Fix them before you stop." >&2
-  exit 2
-fi
-exit 0
-```
-
-The plugin assumes your code already compiles and passes lint. If it doesn't, that's on you — Linus wouldn't even look at it.
 
 ## Configuration
 
