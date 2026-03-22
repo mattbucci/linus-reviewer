@@ -9,7 +9,7 @@
     {
       "name": "linus-reviewer",
       "description": "Brutally honest code review channeling Linus Torvalds. Analyzes data structures, eliminates special cases, reduces cognitive load, and judges code taste. Mechanical checks first, then multi-layer Linus-style analysis.",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "author": {
         "name": "mattbucci"
       },
