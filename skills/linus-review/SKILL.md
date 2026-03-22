@@ -32,7 +32,7 @@ Extract:
 Determine what changed:
 
 - If `PR_NUMBER` given: use `gh pr diff $PR_NUMBER` or `glab mr diff $PR_NUMBER`
-- Otherwise: `git diff main...HEAD` (or appropriate base branch)
+- Otherwise: `git diff origin/main...HEAD` (or appropriate base branch)
 
 Also gather:
 - List of changed files with change counts
