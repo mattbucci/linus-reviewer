@@ -2,6 +2,8 @@
 
 A [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Cursor](https://cursor.com), [Codex CLI](https://github.com/openai/codex), and [OpenCode](https://opencode.ai) plugin that reviews your code the way Linus Torvalds reviews kernel patches — brutally honest, technically precise, and obsessed with good taste.
 
+> *"Sometimes you can see a problem in a different way and rewrite it so that a special case goes away and becomes the normal case, and that's good code."* — Linus Torvalds, TED 2016
+
 A multi-layer Linus-style analysis that judges your code on:
 
 - **Data structures** — Are they right? Does the code revolve around good data design, or is it patching around bad structures with conditionals?
@@ -129,6 +131,8 @@ The plugin assumes your code already compiles and passes lint. If it doesn't, th
 
 ## How It Works
 
+> *"Developers have the attention spans of slightly moronic woodland creatures."* — LinuxCon Europe Keynote
+
 ```
 Phase 1: Gather Diff
     │
@@ -151,6 +155,8 @@ Phase 5: Report (console + PR comments + artifacts)
 ```
 
 ## Design Principles
+
+> *"Bad programmers worry about the code. Good programmers worry about data structures and their relationships."* — Linus Torvalds, Git mailing list, 2006
 
 This plugin applies a specific set of code review principles drawn from Linus Torvalds' documented reviews, talks, and emails, combined with related software design wisdom:
 
@@ -175,6 +181,8 @@ Direct quotes and source material used to build this plugin's review principles.
 
 ### What Good Code Looks Like
 
+> *"That looked even simpler than what I thought it would be... I really like how this looks."* — Linus praising a page cache optimization, 2025
+
 | Source | Context | Key Quote | Principle |
 |--------|---------|-----------|-----------|
 | [TED Talk](https://www.ted.com/talks/linus_torvalds_the_mind_behind_linux) (2016) | Demonstrating "good taste" via linked list deletion — eliminating the head-node special case with pointer-to-pointer | *"Sometimes you can see a problem in a different way and rewrite it so that a special case goes away and becomes the normal case, and that's good code."* | Good taste = eliminating special cases through better design |
@@ -191,6 +199,8 @@ Direct quotes and source material used to build this plugin's review principles.
 
 ### What Bad Code Looks Like
 
+> *"You copied that function without understanding why it does what it does, and as a result your code IS GARBAGE. AGAIN."* — Linus on the eventfs dispute, 2024
+
 | Source | Context | Key Quote | Principle |
 |--------|---------|-----------|-----------|
 | [RISC-V Pull Request Rejection](https://lore.kernel.org/lkml/CAHk-=wjLCqUUWd8DzG+xsOn-yVL0Q=O35U9D6j6=2DUWX52ghQ@mail.gmail.com/) (Aug 2025) | Rejecting `make_u32_from_two_u16()` in generic headers — a helper that obscures meaning | *"That thing makes the world actively a worse place to live. It's useless garbage that makes any user incomprehensible."* | Explicit > Abstract; don't pollute shared code with bad helpers |
@@ -204,6 +214,8 @@ Direct quotes and source material used to build this plugin's review principles.
 | [Pluggability Is Bad](https://lore.kernel.org/all/alpine.LFD.0.999.0710022050560.3579@woody.linux-foundation.org/) (Oct 2007) | On making things pluggable for flexibility's sake | *"Pluggable things are generally a bad thing."* | Don't add abstraction layers for hypothetical flexibility |
 
 ### Rules and Philosophy
+
+> *"WE DO NOT BREAK USERSPACE! Seriously. How hard is this rule to understand?"* — Linus Torvalds, 2012
 
 | Source | Context | Key Quote | Principle |
 |--------|---------|-----------|-----------|
