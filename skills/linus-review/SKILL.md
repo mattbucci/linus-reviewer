@@ -4,7 +4,6 @@ description: "Linus Torvalds-style code review. Brutally honest multi-layer anal
 argument-hint: "[--fix] [PR/MR number]"
 user-invocable: true
 allowed-tools: Read, Grep, Glob, Bash, Agent, Edit, Write
-model: sonnet
 ---
 
 # Linus Torvalds Code Review System
