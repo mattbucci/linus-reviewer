@@ -1,5 +1,5 @@
 ---
-name: review
+name: linus-review
 description: "Linus Torvalds-style code review. Brutally honest multi-layer analysis focused on data structures, good taste, cognitive load, and eliminating unnecessary abstraction. Reviews code like Linus reviews kernel patches."
 argument-hint: "[--fix] [PR/MR number]"
 user-invocable: true
