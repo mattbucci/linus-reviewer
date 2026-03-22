@@ -9,7 +9,7 @@
     {
       "name": "linus-reviewer",
       "description": "Brutally honest code review channeling Linus Torvalds. Analyzes data structures, eliminates special cases, reduces cognitive load, and judges code taste. Mechanical checks first, then multi-layer Linus-style analysis.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "mattbucci"
       },
@@ -17,7 +17,13 @@
       "category": "development",
       "repository": "https://github.com/mattbucci/linus-reviewer",
       "license": "MIT",
-      "keywords": ["code-review", "linus-torvalds", "good-taste", "simplicity", "quality"]
+      "keywords": [
+        "code-review",
+        "linus-torvalds",
+        "good-taste",
+        "simplicity",
+        "quality"
+      ]
     }
   ]
 }
